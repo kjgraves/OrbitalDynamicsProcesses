@@ -207,18 +207,33 @@ def v6Res(a):
         return 2.*(term1 * (1. + term2 + term3))
 
 
+if __name__ == '__main__':
+    # Orbital Location of asteroid (433) Eros at JD 2458123.5 (AU/day)
+    # Generate from JPL HORIZONS web interface
+    x = np.array([2.113248732935414E-01, -1.710744969491345E+00, -1.510912727611170E-01])
+    v = np.array([1.164902577359440E-02, -1.904146498782162E-04,  1.819716752638392E-03])
+    # Standard gravitational parameter of the sun (AU^3/day^2)
+    mu = 2.9591220828563E-04
 
+    # Convert to orbital elements
+    el1 = xv2el(x,v,mu)
+    a, ecc, inc, capom, omega, capm = el1
 
+    # Convert back to state vectors
+    x2, v2 = el2xv(a, ecc, inc, capom, omega, capm, mu)
 
+    # Should be identical ~ within error of eps (in el2xv)
+    print(x)
+    print(x2)
 
+    # Orbital Location of asteroid (1) Ceres at JD 2458123.5 (AU/day)
+    # Generate from JPL HORIZONS web interface
+    x2 = np.array([-1.459222818074064E+00, 2.100449776828629E+00, 3.351443000862495E-01])
+    v2 = np.array([-8.689717527681952E-03,-6.712277315772882E-03, 1.390714099571136E-03])
 
-
-
-
-
-
-
-
+    el2 = xv2el(x2,v2,mu)
+    print("The Drummond (1981) orbital distance between between")
+    print("(433) Eros and (1) Ceres is {0}".format(orb_dist_Dd(el1,el2, mu))
 
 
 
